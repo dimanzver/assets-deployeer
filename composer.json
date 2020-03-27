@@ -1,0 +1,13 @@
+{
+    "name": "diman/assets-deployeer",
+    "authors": [
+        {
+            "name": "diman",
+            "email": "diman.suvor@yandex.ru"
+        }
+    ],
+    "require": {
+      "ext-ftp": "*",
+      "ext-fileinfo": "*"
+    }
+}

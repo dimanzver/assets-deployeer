@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+
+error_reporting(0);
+
+//WRITE paths to directories what you want synchronize (relative to ROOT directory)
+define('DIRECTORIES', [
+    'path/to/dist/directory',
+]);
+
+
+define('DEPLOY_WAY', 'ftp'); //now just ftp
+define('FTP_HOST', 'host.domain.ru');
+define('FTP_PORT', '21');
+define('FTP_LOGIN', 'admin');
+define('FTP_PASSWORD', 'admin');
+define('FTP_BASEPATH', '/');
+define('FTP_PASSIVE_MODE', false); //change to true if connection problems
+define('ROOT', dirname(__DIR__)); //root path of project
+define('STORE_PATH', __DIR__ . '/store'); //path to cache directory, may no change
+
+
+try {
+    spl_autoload_register(function ($class) {
+        if(!preg_match('/^AssetsDeployeer/', $class))
+            return;
+        $class = str_replace('AssetsDeployeer\\', '', $class);
+        include 'lib/' . str_replace('\\', '/', $class) . '.php';
+    });
+} catch (Exception $e) {
+    exit('Autoload error' . PHP_EOL);
+}
+
+$args = array_slice($argv, 1);
+
+if(!in_array($args[0], ['push', 'clear-cache', 'refresh-cache']))
+    exit('Please send correct command' . PHP_EOL);
+
+require_once("commands/$args[0].php");
