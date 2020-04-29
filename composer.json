@@ -8,6 +8,7 @@
     ],
     "require": {
       "ext-ftp": "*",
-      "ext-fileinfo": "*"
+      "ext-fileinfo": "*",
+      "ext-ssh2": "*"
     }
 }

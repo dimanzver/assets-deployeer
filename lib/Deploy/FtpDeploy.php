@@ -35,7 +35,6 @@ class FtpDeploy implements DeployInterface
 
     /**
      * @param string $filepath Relative path to file
-     * @return mixed|void
      */
     public function upload(string $filepath)
     {

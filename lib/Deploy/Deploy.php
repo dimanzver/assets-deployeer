@@ -28,6 +28,10 @@ class Deploy
                         static::$instance = new FtpDeploy(FTP_HOST, FTP_PORT, FTP_LOGIN, FTP_PASSWORD, FTP_BASEPATH);
                         break;
                     }
+                    case 'sftp': {
+                        static::$instance = new SftpDeploy(SFTP_HOST, SFTP_PORT, SFTP_LOGIN, SFTP_PASSWORD, SFTP_BASEPATH);
+                        break;
+                    }
                     default: {
                         exit('Deploy way not found' . PHP_EOL);
                     }
