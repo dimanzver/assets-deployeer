@@ -17,13 +17,24 @@ define('DIRECTORIES', [
 
 Then set settings for connection to server.
 ```php
-define('DEPLOY_WAY', 'ftp'); //now just ftp
+//for FTP connection
+define('DEPLOY_WAY', 'ftp');
 define('FTP_HOST', 'host.domain.ru');
 define('FTP_PORT', '21');
 define('FTP_LOGIN', 'admin');
 define('FTP_PASSWORD', 'admin');
 define('FTP_BASEPATH', '/');
-define('FTP_PASSIVE_MODE', false); //change to true if connection problems
+define('FTP_PASSIVE_MODE', false); //change to true if you have connection problems
+
+//for SFTP connection
+define('DEPLOY_WAY', 'sftp'); 
+define('SFTP_HOST', 'host.domain.ru');
+define('SFTP_PORT', '22');
+define('SFTP_LOGIN', 'admin');
+define('SFTP_PASSWORD', 'admin');
+define('SFTP_BASEPATH', '/');
+
+//local settings
 define('ROOT', dirname(__DIR__)); //root path of project
 define('STORE_PATH', __DIR__ . '/store'); //path to cache directory, may no change
 ```
