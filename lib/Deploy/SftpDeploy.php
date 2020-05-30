@@ -53,7 +53,7 @@ class SftpDeploy implements DeployInterface
         $resultPath = trim($resultPath, '/');
         $createdPath = trim($createdPath, '/');
         $additional = $createdPath ? preg_quote($createdPath) . '\/' : '';
-        preg_match('/(^' . $additional . '\w+)(?:\/|$)/', $resultPath, $matches);
+	preg_match('/(^' . $additional . '.+)(?:\/|$)/U', $resultPath, $matches);
         $dir = $matches[1];
         ssh2_sftp_mkdir($this->sftp, $this->basePath . '/' . $dir);
         if($dir !== $resultPath){
