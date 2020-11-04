@@ -8,7 +8,6 @@
 
 use AssetsDeployeer\ChangedFilesFinder;
 use AssetsDeployeer\Deploy\Deploy;
-use AssetsDeployeer\FilesCacher;
 use AssetsDeployeer\Logger;
 
 Logger::log('Searching files to sync');
@@ -18,6 +17,3 @@ if(empty($filesToUpload)){
 }
 
 Deploy::uploadFiles($filesToUpload);
-
-Logger::log('Updating files cache');
-FilesCacher::saveInCache($filesToUpload);

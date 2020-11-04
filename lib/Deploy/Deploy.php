@@ -7,6 +7,7 @@
  */
 namespace AssetsDeployeer\Deploy;
 
+use AssetsDeployeer\FilesCacher;
 use AssetsDeployeer\Logger;
 use Exception;
 
@@ -52,6 +53,7 @@ class Deploy
         foreach ($files as $file){
             Logger::log('Uploading ' . $file);
             static::getInstance()->upload($file);
+            FilesCacher::saveInCache([$file]);
         }
     }
 

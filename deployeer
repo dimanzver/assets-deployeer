@@ -1,34 +1,33 @@
 #!/usr/bin/env php
 <?php
 
-error_reporting(0);
+error_reporting(E_ERROR);
 
-//WRITE paths to directories what you want synchronize (relative to ROOT directory)
-define('DIRECTORIES', [
-    'path/to/dist/directory',
-]);
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/env-init.php';
 
+//WRITE paths to directories what you want synchronize (relative to ROOT PROJECT (where is assets-deployeer folder) directory)
+define('DIRECTORIES', explode(',', env('DEPLOY_DIRECTORIES')));
 
-define('DEPLOY_WAY', 'sftp'); //or ftp
+define('DEPLOY_WAY', env('DEPLOY_WAY')); //or ftp
 
 //for sftp
-define('SFTP_HOST', 'host.domain.ru');
-define('SFTP_PORT', '22');
-define('SFTP_LOGIN', 'admin');
-define('SFTP_PASSWORD', 'admin');
-define('SFTP_BASEPATH', '/');
+define('SFTP_HOST', env('SFTP_HOST'));
+define('SFTP_PORT', env('SFTP_PORT'));
+define('SFTP_LOGIN', env('SFTP_LOGIN'));
+define('SFTP_PASSWORD', env('SFTP_PASSWORD'));
+define('SFTP_BASEPATH', env('SFTP_BASEPATH'));
 
 //for ftp
-define('FTP_HOST', 'host.domain.ru');
-define('FTP_PORT', '21');
-define('FTP_LOGIN', 'admin');
-define('FTP_PASSWORD', 'admin');
-define('FTP_BASEPATH', '/');
-define('FTP_PASSIVE_MODE', false); //change to true if connection problems
+define('FTP_HOST', env('FTP_HOST'));
+define('FTP_PORT', env('FTP_PORT'));
+define('FTP_LOGIN', env('FTP_LOGIN'));
+define('FTP_PASSWORD', env('FTP_PASSWORD'));
+define('FTP_BASEPATH', env('FTP_BASEPATH'));
+define('FTP_PASSIVE_MODE', env('FTP_PASSIVE_MODE'));
 
-define('ROOT', dirname(__DIR__)); //root path of project
+define('ROOT', env('ROOT'));
 define('STORE_PATH', __DIR__ . '/store'); //path to cache directory, may no change
-
 
 try {
     spl_autoload_register(function ($class) {

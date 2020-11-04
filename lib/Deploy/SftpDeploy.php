@@ -39,25 +39,17 @@ class SftpDeploy implements DeployInterface
      */
     public function upload(string $filepath)
     {
+        //Not using ssh2_scp_send, ssh2_sftp_mkdir because they are VERY SLOW
         $pathinfo = pathinfo($filepath);
         $dir = rtrim($this->basePath, '/') . '/' . $pathinfo['dirname'];
 
+
         if(!ssh2_sftp_stat($this->sftp, $dir)){
-            $this->createSubdirectoryRecursive($pathinfo['dirname']);
+//            ssh2_sftp_mkdir($this->sftp, $dir, 0777, true);
+            mkdir('ssh2.sftp://' . $this->sftp . $dir, 0777, true);
         }
 
-        ssh2_scp_send($this->connection, ROOT . '/' . $filepath, $this->basePath . '/' . $filepath);
-    }
-
-    protected function createSubdirectoryRecursive(string $resultPath, string $createdPath = ''){
-        $resultPath = trim($resultPath, '/');
-        $createdPath = trim($createdPath, '/');
-        $additional = $createdPath ? preg_quote($createdPath) . '\/' : '';
-	preg_match('/(^' . $additional . '.+)(?:\/|$)/U', $resultPath, $matches);
-        $dir = $matches[1];
-        ssh2_sftp_mkdir($this->sftp, $this->basePath . '/' . $dir);
-        if($dir !== $resultPath){
-            $this->createSubdirectoryRecursive($resultPath, $dir);
-        }
+//        ssh2_scp_send($this->connection, ROOT . '/' . $filepath, $this->basePath . '/' . $filepath);
+        file_put_contents('ssh2.sftp://' . $this->sftp . $this->basePath . '/' . $filepath, file_get_contents(ROOT . '/' . $filepath));
     }
 }

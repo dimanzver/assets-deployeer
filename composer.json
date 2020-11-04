@@ -9,6 +9,7 @@
     "require": {
       "ext-ftp": "*",
       "ext-fileinfo": "*",
-      "ext-ssh2": "*"
+      "ext-ssh2": "*",
+        "vlucas/phpdotenv": "^5.2"
     }
 }
