@@ -15,4 +15,8 @@ interface DeployInterface
      * @return mixed
      */
     public function upload(string $filepath);
+
+    public function getFilesListRecursive(string $dir);
+
+    public function removeFile(string $filepath);
 }

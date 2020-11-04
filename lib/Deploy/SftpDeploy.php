@@ -52,4 +52,23 @@ class SftpDeploy implements DeployInterface
 //        ssh2_scp_send($this->connection, ROOT . '/' . $filepath, $this->basePath . '/' . $filepath);
         file_put_contents('ssh2.sftp://' . $this->sftp . $this->basePath . '/' . $filepath, file_get_contents(ROOT . '/' . $filepath));
     }
+
+    public function getFilesListRecursive(string $dir)
+    {
+        $remotePath = rtrim($this->basePath, '/') . '/' . $dir;
+        $stdout = ssh2_exec($this->connection, 'cd ' . $remotePath . ' && find . -type f');
+        stream_set_blocking($stdout, true);
+        $stream_out = ssh2_fetch_stream($stdout, SSH2_STREAM_STDIO);
+        $content = stream_get_contents($stream_out);
+
+        $files = array_filter(explode("\n", $content));
+        $files = array_map(function ($file) {
+            return preg_replace('/^\.\//', '', $file);
+        }, $files);
+        return $files;
+    }
+
+    public function removeFile(string $filepath) {
+        unlink('ssh2.sftp://' . $this->sftp . $this->basePath . '/' . $filepath);
+    }
 }

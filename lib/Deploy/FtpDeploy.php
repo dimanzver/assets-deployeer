@@ -68,4 +68,35 @@ class FtpDeploy implements DeployInterface
     {
         ftp_close($this->connection);
     }
+
+    public function getFilesListRecursive(string $dir)
+    {
+        $files = [];
+
+        $list = ftp_mlsd($this->connection, $this->basePath . '/' . $dir);
+
+        if (is_array($list)) {
+            // Strip away dot directories.
+            $list = array_slice($list, 2);
+
+            foreach ($list as $file) {
+                // If size equals -1 it's a directory.
+                if ($file['type'] === 'dir') {
+                    $childFiles = $this->getFilesListRecursive($dir . '/' . $file['name']);
+                    foreach ($childFiles as $childFile) {
+                        $files[] = $file['name'] . '/' . $childFile;
+                    }
+                } else {
+                    $files[] = $file['name'];
+                }
+            }
+        }
+
+        return $files;
+    }
+
+    public function removeFile(string $filepath)
+    {
+        ftp_delete($this->connection,  $this->basePath . '/' . $filepath);
+    }
 }

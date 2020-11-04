@@ -13,7 +13,8 @@ use AssetsDeployeer\Logger;
 Logger::log('Searching files to sync');
 $filesToUpload = ChangedFilesFinder::getFilesWithChanges();
 if(empty($filesToUpload)){
-    exit('Nothing to upload' . PHP_EOL);
+    echo 'Nothing to upload' . PHP_EOL;
 }
 
 Deploy::uploadFiles($filesToUpload);
+Deploy::removeOldFiles();
